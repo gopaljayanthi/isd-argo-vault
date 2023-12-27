@@ -1,6 +1,6 @@
-1. identify 
+# 1. identify 
 
-VAULT_AUTH_MOUNT the mount used for auhtenticating with kubernetes as defined in operator values.yaml  
+VAULT_AUTH_MOUNT the mount used for auhtenticating with kubernetes as defined in operator values.yaml   
 controller:  
   manager:  
     clientCache:  
@@ -12,7 +12,7 @@ VAULT_ROLE the role that has read rights on VAULT_MOUNT
 VAULT_AUTH the vaultauth crd created in namespace  
 NAMESPACE the namespace where the secrets will be created  
 
-2. make sure prerequisites are met from pre-requisites.txt  
+# 2. make sure prerequisites are met from pre-requisites.txt  
 vault kubernetes authentication enabled  
 vault auth enable -path VAULT_AUTH_MOUNT kubernetes  
 
@@ -39,7 +39,7 @@ vault write auth/VAULT_AUTH_MOUNT/role/VAULT_ROLE \
    audience=vault \
    ttl=24h
 
-4. choose the following passwords
+# 3. choose the following passwords
 
 postgrespassword
 rabbitmqpassword
@@ -49,12 +49,12 @@ vault kv put VAULT_MOUNT/VAULT_PATH/redis redis-password="redispassword"
 vault kv put VAULT_MOUNT/VAULT_PATH/oes-db pguser="postgres" pgpassword="$postgrespassword"  
 vault kv put VAULT_MOUNT/VAULT_PATH/rabbitmq rabbitmquser="rabbitmq" rabbitmqpassword="$rabbitmqpassword"  
 
-4. replace in files in secrets folder
+# 4. replace in files in secrets folder
 sed -i "@POSTGRES-PASSWORD@$postgrespassword" secrets/*
 sed -i "@RABBITMQ-PASSWORD@$rabbitmqpassword" secrets/*
 sed -i "@REDIS-PASSWORD@$redispassword" secrets/*
 
-5. put secrets into vault using put-commands.txt after replacing 
+# 5. put secrets into vault using put-commands.txt after replacing 
 
 VAULT_MOUNT
 VAULT_PATH
@@ -69,14 +69,14 @@ vault kv put VAULT_MOUNT/VAULT_PATH/oes-platform-config platform-local.yml=@secr
 vault kv put VAULT_MOUNT/VAULT_PATH/oes-sapor-config application.yml=@secrets/application.yml
 vault kv put VAULT_MOUNT/VAULT_PATH/oes-visibility-config visibility-local.yml=@secrets/visibility-local.yml
 
-6. set values.yaml and run helm commands example helm template . > ss.yaml
+# 6. set values.yaml and run helm commands example helm template . > ss.yaml
 
 kubectl -n NAMESPACE apply -f ss.yaml
 
-7. verify the secrets are replaced
-8. delete all pods 
+# 7. verify the secrets are replaced
+# 8. delete all pods 
 ( make changes to posgres sts ( envs from secret, image, startup script )
  and rabbitmq deployments ( envs from secret) if necessary )
-9. make sure all new pods come up ok
+# 9. make sure all new pods come up ok
 
 
