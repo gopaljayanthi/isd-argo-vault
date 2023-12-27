@@ -1,7 +1,3 @@
-correct path in put commands.txt
-
-put document in prerequites
-
 1. identify 
 
 VAULT_AUTH_MOUNT the mount used for auhtenticating with kubernetes as defined in operator values.yaml
@@ -17,8 +13,32 @@ VAULT_AUTH the vaultauth crd created in namespace
 NAMESPACE the namespace where the secrets will be created
 
 2. make sure prerequisites are met from pre-requisites.txt
+vault kubernetes authentication enabled
+vault auth enable -path VAULT_AUTH_MOUNT kubernetes
 
-3. choose the following passwords
+vault connect to kubernetes
+vault write auth/VAULT_AUTH_MOUNT/config \
+   kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
+
+vault path enabled to store secrets
+vault secrets enable -path=VAULT_MOUNT kv-v2
+
+
+vault create read only policy 
+vault policy write dev - <<EOF
+path "VAULT_MOUNT/*" {
+   capabilities = ["read"]
+}
+
+vault create role with read-only policy created above, and associate with namespace in cluster
+vault write auth/VAULT_AUTH_MOUNT/role/VAULT_ROLE \
+   bound_service_account_names=default \
+   bound_service_account_namespaces=NAMESPACE \
+   policies=dev \
+   audience=vault \
+   ttl=24h
+
+4. choose the following passwords
 
 postgrespassword
 rabbitmqpassword
@@ -39,9 +59,7 @@ REDIS-PASSWORD
 
 6. set values.yaml and run helm commands example helm template . > ss.yaml
 
-replace VAULT_MOUNT, VAULT_PATH, VAULT_AUTH
-
-kubectl -n NAMESPACE apply -f s.yaml
+kubectl -n NAMESPACE apply -f ss.yaml
 
 7. verify the secrets are created
 8. delete all pods 
