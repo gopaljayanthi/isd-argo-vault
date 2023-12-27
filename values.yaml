@@ -1,0 +1,9 @@
+# Default values for isd-argo-vault.
+#
+#
+#
+vaultmount: kvv2
+vaultpath: isdargo
+vaultauth: vaultauth
+vaultauthmount: demo-auth-mount
+vaultrole: argocd-role

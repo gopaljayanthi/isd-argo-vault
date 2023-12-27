@@ -1,0 +1,58 @@
+pre-requisites
+vault secrets operator installed
+VAULT_AUTH_MOUNT
+VAULT_MOUNT
+VAULT_ROLE
+VAULT_AUTH
+NAMESPACE
+
+
+vault kubernetes authentication enabled
+vault auth enable -path VAULT_AUTH_MOUNT kubernetes
+
+vault connect to kubernetes
+vault write auth/VAULT_AUTH_MOUNT/config \
+   kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
+
+vault path enabled to store secrets
+vault secrets enable -path=VAULT_MOUNT kv-v2
+
+
+vault create read only policy to be created
+vault policy write dev - <<EOF
+path "VAULT_MOUNT/*" {
+   capabilities = ["read"]
+}
+
+vault create role with read-only policy created above, and associate with namespace in cluster
+vault write auth/VAULT_AUTH_MOUNT/role/VAULT_ROLE \
+   bound_service_account_names=default \
+   bound_service_account_namespaces=NAMESPACE \
+   policies=dev \
+   audience=vault \
+   ttl=24h
+
+vault create vaultauth using this yaml
+
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: VAULT_AUTH
+spec:
+  method: kubernetes
+  mount: VAULT_AUTH_MOUNT
+  kubernetes:
+    role: VAULT_ROLE
+    serviceAccount: default
+    audiences:
+      - vault
+
+
+
+
+
+
+
+
+
+
