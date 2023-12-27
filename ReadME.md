@@ -59,15 +59,15 @@ sed -i "@REDIS-PASSWORD@$redispassword" secrets/*
 VAULT_MOUNT
 VAULT_PATH
 
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-audit-client-config audit-local.yml=@secrets/audit-local.yml
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-audit-service-config audit-local.yml=@secrets/audit-service-local.yml
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-autopilot-config autopilot.properties=@secrets/autopilot.properties
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-carina-config carina-manager.yaml=@secrets/carina-manager.yaml
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-datascience-config app-config.yml=@secrets/app-config.yml
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-gate-config gate.yml=@secrets/gate.yml
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-platform-config platform-local.yml=@secrets/platform-local.yml
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-sapor-config application.yml=@secrets/application.yml
-vault kv put VAULT_MOUNT/VAULT_PATH/oes-visibility-config visibility-local.yml=@secrets/visibility-local.yml
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-audit-client-config audit-local.yml=@secrets/audit-local.yml  
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-audit-service-config audit-local.yml=@secrets/audit-service-local.yml  
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-autopilot-config autopilot.properties=@secrets/autopilot.properties  
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-carina-config carina-manager.yaml=@secrets/carina-manager.yaml  
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-datascience-config app-config.yml=@secrets/app-config.yml  
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-gate-config gate.yml=@secrets/gate.yml  
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-platform-config platform-local.yml=@secrets/platform-local.yml  
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-sapor-config application.yml=@secrets/application.yml  
+vault kv put VAULT_MOUNT/VAULT_PATH/oes-visibility-config visibility-local.yml=@secrets/visibility-local.yml  
 
 # 6. set values.yaml and run helm commands example helm template . > ss.yaml
 
