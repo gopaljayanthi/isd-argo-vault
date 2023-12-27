@@ -41,18 +41,18 @@ vault write auth/VAULT_AUTH_MOUNT/role/VAULT_ROLE \
 
 # 3. choose the following passwords
 
-postgrespassword
-rabbitmqpassword
-redispassword
+postgrespassword  
+rabbitmqpassword  
+redispassword  
 
 vault kv put VAULT_MOUNT/VAULT_PATH/redis redis-password="redispassword"  
 vault kv put VAULT_MOUNT/VAULT_PATH/oes-db pguser="postgres" pgpassword="$postgrespassword"  
 vault kv put VAULT_MOUNT/VAULT_PATH/rabbitmq rabbitmquser="rabbitmq" rabbitmqpassword="$rabbitmqpassword"  
 
 # 4. replace in files in secrets folder
-sed -i "@POSTGRES-PASSWORD@$postgrespassword" secrets/*
-sed -i "@RABBITMQ-PASSWORD@$rabbitmqpassword" secrets/*
-sed -i "@REDIS-PASSWORD@$redispassword" secrets/*
+sed -i "@POSTGRES-PASSWORD@$postgrespassword" secrets/*  
+sed -i "@RABBITMQ-PASSWORD@$rabbitmqpassword" secrets/*  
+sed -i "@REDIS-PASSWORD@$redispassword" secrets/*  
 
 # 5. put secrets into vault using put-commands.txt after replacing 
 
